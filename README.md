@@ -7,7 +7,7 @@ Flatpak package for [GDLauncher](https://gdlauncher.com) - a custom Minecraft la
 Add the (unofficial) Flatpak repo once, then install — updates come through `flatpak update` or your software center:
 
 ```bash
-flatpak remote-add --if-not-exists gdlauncher https://projects.rjmunhoz.me/gdlauncher-flatpak/gdlauncher.flatpakrepo
+flatpak remote-add --if-not-exists gdlauncher https://roz.ninja/gdlauncher-flatpak/gdlauncher.flatpakrepo
 flatpak install gdlauncher gg.gdl.GDLauncher
 ```
 
