@@ -35,8 +35,8 @@ modules:
         done
     sources:
       - type: file
-        url: https://cdn-raw.gdl.gg/launcher/GDLauncher__2.0.34__linux__x64.AppImage
-        sha256: 49885c599470e8ddc8fe0d40288a871d36cf909c9cdc391dc03a0f065945e1b5
+        url: https://cdn-raw.gdl.gg/launcher/GDLauncher__2.0.40__linux__x64.AppImage
+        sha256: dd7c01f333ce5fcdf3c693e246d2e829bf8204917a6b1ef2dd67d0c845db0336
         dest-filename: GDLauncher.AppImage
         x-checker-data:
           type: json
