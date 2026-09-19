@@ -92,14 +92,569 @@ jobs:
           Description=Unofficial Flatpak repository that repackages the upstream GDLauncher AppImage.
           GPGKey=${gpgkey}
           EOF
+          # landing page icon (shown at 64px, so 128px keeps it sharp on HiDPI)
+          cp icons/128.png repo/gdlauncher.png
           cat > repo/index.html <<EOF
-          <!doctype html><meta charset="utf-8">
-          <title>GDLauncher (unofficial) Flatpak repo</title>
-          <h1>GDLauncher — unofficial Flatpak repo</h1>
-          <p>Add the remote and install:</p>
-          <pre>flatpak remote-add --if-not-exists gdlauncher ${base}gdlauncher.flatpakrepo
-          flatpak install gdlauncher gg.gdl.GDLauncher</pre>
-          <p>It then updates via <code>flatpak update</code> or your software center.</p>
+          <!doctype html>
+          <html lang="en">
+          <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <meta
+              name="description"
+              content="Unofficial Flatpak repository for GDLauncher."
+            >
+            <title>GDLauncher :: Flatpak Repository</title>
+
+            <style>
+            :root {
+              --bg: #060705;
+              --bg-alt: #090b09;
+
+              --surface: #0d110f;
+              --surface-alt: #090d0b;
+              --terminal: #080a08;
+
+              --text: #dfe6e1;
+              --text-dim: #a5afa9;
+              --text-faint: #68716b;
+
+              --green: #3a6e4f;
+              --green-bright: #6b9478;
+              --green-dim: rgba(58, 110, 79, 0.18);
+
+              --line: rgba(102, 132, 112, 0.16);
+              --line-strong: rgba(102, 132, 112, 0.27);
+
+              --shadow: 0 20px 55px rgba(0, 0, 0, 0.55);
+
+              --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "Helvetica Neue", Arial, sans-serif;
+              --mono: ui-monospace, "JetBrains Mono", "Fira Code", "DejaVu Sans Mono", Menlo, Consolas, monospace;
+            }
+
+              * {
+                box-sizing: border-box;
+              }
+
+              html {
+                min-height: 100%;
+              }
+
+              body::before {
+                content: "";
+                position: fixed;
+                inset: 0;
+
+                pointer-events: none;
+
+                background:
+                  repeating-linear-gradient(
+                    0deg,
+                    rgba(255,255,255,0.012) 0,
+                    rgba(255,255,255,0.012) 1px,
+                    transparent 1px,
+                    transparent 3px
+                  );
+
+                opacity: 0.45;
+              }
+
+              body {
+                min-height: 100vh;
+                margin: 0;
+
+                color: var(--text);
+
+                background:
+                  radial-gradient(
+                    ellipse at 50% 35%,
+                    rgba(58, 110, 79, 0.075),
+                    transparent 55%
+                  ),
+                  linear-gradient(
+                    rgba(255, 255, 255, 0.012) 1px,
+                    transparent 1px
+                  ),
+                  linear-gradient(
+                    180deg,
+                    #060705 0%,
+                    #080a08 100%
+                  );
+
+                background-size:
+                  auto,
+                  100% 3px,
+                  auto;
+
+                font-family: var(--sans);
+                font-size: 16px;
+                line-height: 1.6;
+              }
+
+              a {
+                color: #679277;
+              }
+
+              a:hover {
+                color: #8db59a;
+              }
+
+              code {
+                color: #d4e3d8;
+                font-family: var(--mono);
+                font-size: 0.9em;
+              }
+
+              .page {
+                width: min(940px, calc(100% - 32px));
+                margin: 0 auto;
+                padding: 20px 0 20px;
+              }
+
+              .frame {
+                position: relative;
+                overflow: hidden;
+
+                border: 1px solid var(--line-strong);
+
+                background:
+                  linear-gradient(
+                    180deg,
+                    rgba(14, 18, 15, 0.96),
+                    rgba(7, 9, 8, 0.98)
+                  );
+
+                box-shadow:
+                  0 22px 60px rgba(0, 0, 0, 0.58),
+                  0 0 45px rgba(58, 110, 79, 0.035);
+              }
+
+              .topbar {
+                display: flex;
+                justify-content: space-between;
+                padding: 9px 17px;
+                border-bottom: 1px solid var(--line);
+                font-family: var(--mono);
+                font-size: 13px;
+                background:
+                  linear-gradient(
+                    180deg,
+                    rgba(255,255,255,0.025),
+                    rgba(255,255,255,0.005)
+                  );
+
+                color: #59625d;
+              }
+
+              .topbar .status {
+                color: #6c9177;
+              }
+
+              .content {
+                padding: 26px 34px 22px;
+              }
+
+              .header {
+                display: flex;
+                align-items: center;
+                gap: 18px;
+
+                padding-bottom: 16px;
+                border-bottom: 1px solid var(--line);
+              }
+
+              .icon {
+                width: 64px;
+                height: 64px;
+                flex: 0 0 64px;
+
+                border: 1px solid rgba(107, 148, 120, 0.28);
+                border-radius: 14px;
+
+                background: #090d0b;
+
+                object-fit: contain;
+
+                box-shadow:
+                  0 10px 24px rgba(0,0,0,0.4),
+                  0 0 22px rgba(58,110,79,0.08);
+              }
+
+              .title-meta {
+                margin-bottom: 2px;
+
+                color: #8fac98;
+
+                font-family: var(--mono);
+                font-size: 12.5px;
+                font-weight: 700;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+              }
+
+              h1 {
+                margin: 0;
+
+                color: var(--text);
+
+                font-size: clamp(1.8rem, 5vw, 2.4rem);
+                font-weight: 700;
+                line-height: 1.05;
+                letter-spacing: -0.045em;
+              }
+
+              .description {
+                margin: 6px 0 0;
+
+                color: var(--text-dim);
+
+                font-size: 1.05rem;
+              }
+
+              .section {
+                padding: 15px 0;
+
+                border-bottom: 1px solid var(--line);
+              }
+
+              .section:last-child {
+                padding-bottom: 0;
+                border-bottom: 0;
+              }
+
+              .section-label {
+                margin-bottom: 8px;
+
+                color: #87aa92;
+
+                font-family: var(--mono);
+                font-size: 12.5px;
+                font-weight: 700;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+              }
+
+              .section p {
+                margin: 0 0 10px;
+                font-size: 1rem;
+                color: var(--text-dim);
+              }
+
+              .terminal {
+                overflow-x: auto;
+
+                margin-top: 10px;
+
+                border: 1px solid var(--line);
+                background: var(--terminal);
+
+                font-family: var(--mono);
+                font-size: 15px;
+                line-height: 1.6;
+              }
+
+              .terminal-line {
+                display: flex;
+                min-width: max-content;
+
+                padding: 7px 14px;
+
+                border-bottom: 1px solid rgba(255,255,255,0.045);
+              }
+
+              .terminal-line:last-child {
+                border-bottom: 0;
+              }
+
+              .prompt {
+                flex: 0 0 auto;
+                margin-right: 11px;
+
+                color: var(--green-bright);
+                user-select: none;
+              }
+
+              .command {
+                color: #d8e1db;
+              }
+
+              .links {
+                display: flex;
+                flex-wrap: wrap;
+
+                margin-top: 3px;
+              }
+
+              .links a {
+                display: inline-block;
+
+                padding: 0 17px;
+
+                border-left: 1px solid var(--line);
+
+                font-family: var(--mono);
+                font-size: 14px;
+                font-weight: 600;
+              }
+
+              .links a:first-child {
+                padding-left: 0;
+                border-left: 0;
+              }
+
+              .links a:hover {
+                color: #b9d5c2;
+              }
+
+              .details {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 28px;
+
+                margin-top: 3px;
+              }
+
+              .detail h2 {
+                margin: 0 0 7px;
+                color: var(--text);
+
+                font-size: 1.02rem;
+                font-weight: 650;
+              }
+
+              .detail p {
+                margin: 0;
+
+                color: var(--text-dim);
+
+                font-size: 0.97rem;
+              }
+
+              .notice {
+                padding-top: 18px;
+                padding-bottom: 2px;
+              }
+
+              .notice p {
+                max-width: 720px;
+
+                color: var(--text-faint);
+
+                font-size: 0.92rem;
+              }
+
+              .footer {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                padding: 10px 17px;
+
+                border-top: 1px solid var(--line);
+
+                color: var(--text-faint);
+
+                font-family: var(--mono);
+                font-size: 12.5px;
+              }
+
+              .footer a {
+                color: #83958a;
+              }
+
+              @media (max-width: 620px) {
+                .page {
+                  width: min(100% - 20px, 860px);
+                  padding-top: 24px;
+                }
+
+                .content {
+                  padding: 26px 22px 24px;
+                }
+
+                .header {
+                  align-items: flex-start;
+                }
+
+                .icon {
+                  width: 62px;
+                  height: 62px;
+                  flex-basis: 62px;
+                  border-radius: 11px;
+                }
+
+                .details {
+                  grid-template-columns: 1fr;
+                  gap: 22px;
+                }
+
+                .footer {
+                  align-items: flex-start;
+                  flex-direction: column;
+                  gap: 5px;
+                }
+              }
+
+              @media (max-width: 430px) {
+                .header {
+                  gap: 15px;
+                }
+
+                .links {
+                  display: block;
+                }
+
+                .links a {
+                  display: block;
+
+                  padding: 5px 0;
+                  font-size: 14px;
+
+                  border-left: 0;
+                }
+              }
+            </style>
+          </head>
+
+          <body>
+            <main class="page">
+
+              <div class="frame">
+
+                <div class="topbar">
+                  <span>gdlauncher-flatpak</span>
+                  <span class="status">unofficial / signed</span>
+                </div>
+
+                <div class="content">
+
+                  <header class="header">
+                    <img
+                      class="icon"
+                      src="gdlauncher.png"
+                      alt="GDLauncher icon"
+                    >
+
+                    <div>
+                      <div class="title-meta">
+                        unofficial flatpak repository
+                      </div>
+
+                      <h1>GDLauncher</h1>
+
+                      <p class="description">
+                        GDLauncher packaged for Flatpak and distributed through
+                        a personal repository.
+                      </p>
+                    </div>
+                  </header>
+
+                  <section class="section">
+                    <div class="section-label">Install</div>
+
+                    <p>
+                      Add the repository once, then install GDLauncher as a
+                      per-user Flatpak.
+                    </p>
+
+                    <div class="terminal">
+                      <div class="terminal-line">
+                        <span class="prompt">\$</span>
+                        <span class="command">flatpak remote-add --user --if-not-exists gdlauncher ${base}gdlauncher.flatpakrepo</span>
+                      </div>
+
+                      <div class="terminal-line">
+                        <span class="prompt">\$</span>
+                        <span class="command">flatpak install --user gdlauncher gg.gdl.GDLauncher</span>
+                      </div>
+                    </div>
+                  </section>
+
+                  <section class="section">
+                    <div class="section-label">Updates</div>
+
+                    <p>
+                      Once installed, updates are handled through Flatpak.
+                    </p>
+
+                    <div class="terminal">
+                      <div class="terminal-line">
+                        <span class="prompt">\$</span>
+                        <span class="command">flatpak update</span>
+                      </div>
+                    </div>
+                  </section>
+
+                  <section class="section">
+                    <div class="section-label">Project</div>
+
+                    <div class="details">
+
+                      <div class="detail">
+                        <h2>Packaging</h2>
+
+                        <p>
+                          This repository provides an unofficial Flatpak
+                          packaging of the upstream GDLauncher AppImage.
+                        </p>
+                      </div>
+
+                      <div class="detail">
+                        <h2>Upstream</h2>
+
+                        <p>
+                          GDLauncher is developed and distributed by Gorilla Devs.
+                          This package is maintained separately.
+                        </p>
+                      </div>
+
+                    </div>
+                  </section>
+
+                  <section class="section">
+                    <div class="section-label">Links</div>
+
+                    <nav class="links" aria-label="Project links">
+                      <a href="https://github.com/datakraut/gdlauncher-flatpak">
+                        source
+                      </a>
+
+                      <a href="https://github.com/datakraut/gdlauncher-flatpak/releases/latest">
+                        releases
+                      </a>
+
+                      <a href="https://gdlauncher.com">
+                        gdlauncher
+                      </a>
+
+                      <a href="${base}gdlauncher.flatpakrepo">
+                        .flatpakrepo
+                      </a>
+                    </nav>
+                  </section>
+
+                  <section class="section notice">
+                    <div class="section-label">Notice</div>
+
+                    <p>
+                      This is a personal, unofficial package. It is not affiliated
+                      with or endorsed by Gorilla Devs. There are no guarantees
+                      that it will always work or remain maintained.
+                    </p>
+                  </section>
+
+                </div>
+
+                <footer class="footer">
+                  <span>GDLauncher :: Flatpak Repository</span>
+                  <a href="${base}">datakraut.github.io</a>
+                </footer>
+
+              </div>
+
+            </main>
+          </body>
+          </html>
           EOF
 
       - uses: actions/upload-artifact@v4

@@ -16,8 +16,8 @@ work or remain maintained.
 Add the repository once, then install GDLauncher:
 
 ```bash
-flatpak remote-add --if-not-exists gdlauncher https://datakraut.github.io/gdlauncher-flatpak/gdlauncher.flatpakrepo
-flatpak install gdlauncher gg.gdl.GDLauncher
+flatpak remote-add --user --if-not-exists gdlauncher https://datakraut.github.io/gdlauncher-flatpak/gdlauncher.flatpakrepo
+flatpak install --user gdlauncher gg.gdl.GDLauncher
 ```
 
 Updates are handled through `flatpak update`.
