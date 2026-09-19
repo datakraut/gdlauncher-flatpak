@@ -1,6 +1,6 @@
 app-id: gg.gdl.GDLauncher
 runtime: org.freedesktop.Platform
-runtime-version: '24.08'
+runtime-version: '26.08'
 sdk: org.freedesktop.Sdk
 command: gdlauncher
 
@@ -11,10 +11,11 @@ finish-args:
   - --socket=wayland
   - --socket=pulseaudio
   - --device=dri
-  - --filesystem=home
   - --talk-name=org.freedesktop.Notifications
   - --talk-name=org.kde.StatusNotifierWatcher
   - --env=XCURSOR_PATH=/run/host/user-share/icons:/run/host/share/icons
+  - --filesystem=xdg-run/discord-ipc-0
+  - --filesystem=xdg-run/app/com.discordapp.Discord:create
 
 modules:
   - name: gdlauncher
